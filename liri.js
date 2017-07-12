@@ -14,6 +14,8 @@ const keys = require("./keys.js")
 const twitterKeys = keys.twitterKeys;
 console.log("keys loaded");
 
+const client = new Twitter(keys);
+
 
 //=======================
 //FUNCTIONS
