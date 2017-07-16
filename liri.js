@@ -12,10 +12,6 @@ const fs = require("fs"); //core node package for reading and writing files
 const keys = require("./keys.js")
 const twitterKeys = keys.twitterKeys;
 
-//New twitter client
-const client = new twitter(twitterKeys);
-const params = {screen_name: 'aldubootcamp'};
-
 //Command line agruments
 const cmdArg = process.argv;
 const liriCommand = cmdArg[2];
@@ -31,8 +27,34 @@ for (let i = 3; i < cmdArg.length; i++) {
 //FUNCTIONS
 //=======================
 function retrieveTweets(){
+  //Append the command to the log files
+  fs.appendFile("./log.txt", "User Command: node liri.js my-tweets\n\n", (err) => {
+    if (err) {
+      throw err;
+    }
+  })
 
-}
+  // Initialize the twitter client
+  const client = new twitter(twitterKeys);
+  //Adjust screen name and count
+  const params = {screen_name: 'aldubootcamp', count: 20};
+
+  //Get the last 20 tweets
+  client.get("statuses/user_timeline", params, (error, tweets, response) => {
+    if (!error) {
+    console.log(tweets);
+    } else {
+      var errorStr = "ERROR: Retrieving user tweets -- " + error;
+
+			// Append the error string to the log file
+			fs.appendFile("./log.txt", errorStr, (err) => {
+				if (err) throw err;
+				console.log(errorStr);
+			});
+			return;
+    }
+  })
+} //End retrieveTweets();
 
 function retrieveOBDBInfo(movie){
 
