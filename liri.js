@@ -27,24 +27,21 @@ for (let i = 3; i < cmdArg.length; i++) {
 //FUNCTIONS
 //=======================
 function retrieveTweets(){
-  //Append the command to the log files
-  fs.appendFile("./log.txt", "User Command: node liri.js my-tweets\n\n", (err) => {
-    if (err) {
-      throw err;
-    }
-  })
+  // Append the command to the log file
+	fs.appendFile("./log.txt", "User Command: node liri.js my-tweets\n\n", (err) => {
+		if (err) throw err;
+	});
 
-  // Initialize the twitter client
-  const client = new twitter(twitterKeys);
-  //Adjust screen name and count
-  const params = {screen_name: 'aldubootcamp', count: 20};
+	// Initialize the Twitter client
+	var client = new Twitter(twitterKeys);
 
-  //Get the last 20 tweets
-  client.get("statuses/user_timeline", params, (error, tweets, response) => {
-    if (!error) {
-    console.log(tweets);
-    } else {
-      const errorStr = "ERROR: Retrieving user tweets -- " + error;
+	// Set the 'screen_name' to my Twitter handle
+	var params = {screen_name: "aldubootcamp", count: 20};
+
+	// Retrieve the last 20 tweets
+	client.get("statuses/user_timeline", params, (error, tweets, response) => {
+		if (error) {
+			var errorStr = "ERROR: Retrieving user tweets -- " + error;
 
 			// Append the error string to the log file
 			fs.appendFile("./log.txt", errorStr, (err) => {
@@ -52,11 +49,93 @@ function retrieveTweets(){
 				console.log(errorStr);
 			});
 			return;
-    }
-  })
+		} else {
+			// Pretty print user tweets
+			var outputStr = "===================\n" +
+							         "User Tweets:\n" +
+							        "===================\n\n";
+
+			for (var i = 0; i < tweets.length; i++) {
+				outputStr += "Created on: " + tweets[i].created_at + "\n" +
+							 "Tweet content: " + tweets[i].text + "\n" +
+							 "================================\n";
+			}
+
+			// Append the output to the log file
+			fs.appendFile("./log.txt", "LIRI Response:\n\n" + outputStr + "\n", (err) => {
+				if (err) throw err;
+				console.log(outputStr);
+			});
+		}
+	});
 } //End retrieveTweets();
 
 function retrieveOBDBInfo(movie){
+
+  // Append the command to the log file
+	fs.appendFile("./log.txt", "User Command: node liri.js movie-this " + movie + "\n\n", (err) => {
+		if (err) throw err;
+	});
+
+	// If no movie is provided, LIRI defaults to "Foxcatcher"
+	let search;
+	if (movie === "") {
+		search = "Foxcatcher";
+	} else {
+		search = movie;
+	}
+
+	// Replace spaces with "+" for the query string
+	search = search.split(" ").join("+");
+
+	// Construct the query string
+	const queryStr = 'http://www.omdbapi.com/?t=' + search + '&plot=full&tomatoes=true';
+
+	// Send the request to OMDB
+	request(queryStr, (error, response, body) => {
+		if ( error || (response.statusCode !== 200) ) {
+			const errorStr1 = 'ERROR: Retrieving OMDB entry -- ' + error;
+
+			// Append the error string to the log file
+			fs.appendFile("./log.txt", errorStr1, (err) => {
+				if (err) throw err;
+				console.log(errorStr1);
+			});
+			return;
+		} else {
+			const data = JSON.parse(body);
+			if (!data.Title && !data.Released && !data.imdbRating) {
+				const errorStr2 = 'ERROR: No movie info retrieved, please check the spelling of the movie name!';
+
+				// Append the error string to the log file
+				fs.appendFile('./log.txt', errorStr2, (err) => {
+					if (err) throw err;
+					console.log(errorStr2);
+				});
+				return;
+			} else {
+		    	//Print the movie information
+		    	var outputStr = "===================\n" +
+								          "Movie Information:\n" +
+								          "====================\n\n" +
+								          "Movie Title: " + data.Title + "\n" +
+          								"Year Released: " + data.Released + "\n" +
+          								"IMBD Rating: " + data.imdbRating + "\n" +
+          								"Country Produced: " + data.Country + "\n" +
+          								"Language: " + data.Language + "\n" +
+          								"Plot: " + data.Plot + "\n" +
+          								"Actors: " + data.Actors + "\n" +
+          								"Rotten Tomatoes Rating: " + data.tomatoRating + "\n" +
+          								"Rotten Tomatoes URL: " + data.tomatoURL + "\n";
+
+				// Append the output to the log file
+				fs.appendFile("./log.txt", "LIRI Response:\n\n" + outputStr + "\n", (err) => {
+					if (err) throw err;
+					console.log(outputStr);
+				});
+			}
+		}
+	});
 
 } //End retrieveOBDBInfo();
 
@@ -134,6 +213,7 @@ if (liriCommand === "my-tweets") {
     retrieveOBDBInfo(liriArg);
 
 } else if (liriCommand === "do-what-it-says") {
+  doWhatItSays();
 
 } else if (liriCommand === "spotify-this-song") {
     spotifySong(liriArg);
