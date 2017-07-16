@@ -6,6 +6,7 @@ const twitter = require('twitter');
 //npm install --save node-spotify-api??
 const Spotify = require('node-spotify-api');
 const request = require('request'); //needed for OMBD API
+const fs = require("fs"); //core node package for reading and writing files
 
 //Load User Twitter Keys
 const keys = require("./keys.js")
