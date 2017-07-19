@@ -2,24 +2,24 @@
 //GLOBAL VARIABLES
 //=======================
 //Load Required Node Modules
-const twitter = require('twitter');
+var twitter = require('twitter');
 //npm install --save node-spotify-api??
-const spotify = require('node-spotify-api');
-const request = require('request'); //needed for OMBD API
-const fs = require("fs"); //core node package for reading and writing files
+var spotify = require('node-spotify-api');
+var request = require('request'); //needed for OMBD API
+var fs = require("fs"); //core node package for reading and writing files
 
 //Load User Twitter Keys
-const keys = require("./keys.js")
-const twitterKeys = keys.twitterKeys;
+var keys = require("./keys.js")
+var twitterKeys = keys.twitterKeys;
 
 //Command line agruments
-const cmdArg = process.argv;
-const liriCommand = cmdArg[2];
+var cmdArg = process.argv;
+var liriCommand = cmdArg[2];
 
 //If parameters to the liriCommand has spaces
-let liriArg = "";
+var liriArg = "";
 
-for (let i = 3; i < cmdArg.length; i++) {
+for (var i = 3; i < cmdArg.length; i++) {
   liriArg += cmdArg[i] + " ";
 }
 
@@ -57,7 +57,7 @@ function retrieveTweets(){
 							         "User Tweets:\n" +
 							        "===================\n\n";
 
-			for (let i = 0; i < tweets.length; i++) {
+			for (var i = 0; i < tweets.length; i++) {
 				outputStr += "Created on: " + tweets[i].created_at + "\n" +
     							 "Tweet content: " + tweets[i].text + "\n" +
     							 "================================\n";
@@ -81,7 +81,7 @@ function retrieveOBDBInfo(movie){
 	});
 
 	// If no movie is provided, LIRI defaults to "Mr. Nobody"
-	let search;
+	var search;
 	if (movie === "") {
 		search = "Mr. Nobody";
 	} else {
@@ -91,13 +91,13 @@ function retrieveOBDBInfo(movie){
 	// Replace spaces with "+" for the query string
 	search = search.split(" ").join("+");
 
-	// Construct the query string
-	const queryStr = 'http://www.omdbapi.com/?t=' + search + '&plot=full&tomatoes=true';
+	// varruct the query string
+	var queryStr = 'http://www.omdbapi.com/?t=' + search + '&plot=full&tomatoes=true';
 
 	// Send the request to OMDB
 	request(queryStr, (error, response, body) => {
 		if ( error || (response.statusCode !== 200) ) {
-			const errorStr1 = 'ERROR: Retrieving OMDB entry -- ' + error;
+			var errorStr1 = 'ERROR: Retrieving OMDB entry -- ' + error;
 
 			// Append the error string to the log file
 			fs.appendFile("./log.txt", errorStr1, (err) => {
@@ -106,9 +106,9 @@ function retrieveOBDBInfo(movie){
 			});
 			return;
 		} else {
-			const data = JSON.parse(body);
+			var data = JSON.parse(body);
 			if (!data.Title && !data.Released && !data.imdbRating) {
-				const errorStr2 = 'ERROR: No movie info retrieved, please check the spelling of the movie name!';
+				var errorStr2 = 'ERROR: No movie info retrieved, please check the spelling of the movie name!';
 
 				// Append the error string to the log file
 				fs.appendFile('./log.txt', errorStr2, (err) => {
@@ -156,9 +156,9 @@ function doWhatItSays(){
 			return;
 		} else {
 			// Split out the command name and the parameter name
-			const cmdString = data.split(",");
-			const command = cmdString[0].trim();
-			const param = cmdString[1].trim();
+			var cmdString = data.split(",");
+			var command = cmdString[0].trim();
+			var param = cmdString[1].trim();
 
 			switch(command) {
 				case "my-tweets":
@@ -194,7 +194,7 @@ function spotifySong(song){
 
   	spotify.search({ type: "track", query: search}, (error, data) => {
   	    if (error) {
-  			const errorStr1 = "ERROR: Retrieving Spotify track -- " + error;
+  			var errorStr1 = "ERROR: Retrieving Spotify track -- " + error;
 
   			// Append the error string to the log file
   			fs.appendFile("./log.txt", errorStr1, (err) => {
@@ -204,9 +204,9 @@ function spotifySong(song){
   			return;
 
   	    } else {
-  			const songInfo = data.tracks.items[0];
+  			var songInfo = data.tracks.items[0];
   			if (!songInfo) {
-  				const errorStr2 = "ERROR: No song info retrieved, please check the spelling of the song name!";
+  				var errorStr2 = "ERROR: No song info retrieved, please check the spelling of the song name!";
 
   				// Append the error string to the log file
   				fs.appendFile("./log.txt", errorStr2, (err) => {
