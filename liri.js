@@ -4,7 +4,7 @@
 //Load Required Node Modules
 var Twitter = require('twitter');
 //npm install --save node-spotify-api??
-var spotify = require('node-spotify-api');
+var Spotify = require('node-spotify-api');
 var request = require('request'); //needed for OMBD API
 var fs = require("fs"); //core node package for reading and writing files
 
