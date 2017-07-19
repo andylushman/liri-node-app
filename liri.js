@@ -11,6 +11,7 @@ var fs = require("fs"); //core node package for reading and writing files
 //Load User Twitter Keys
 var keys = require("./keys.js")
 var twitterKeys = keys.twitterKeys;
+var spotifyKeys = keys.spotifyKeys;
 
 //Command line agruments
 var cmdArg = process.argv;
@@ -191,6 +192,8 @@ function spotifySong(song){
   	} else {
   		search = song;
   	}
+
+    var spotify = new Spotify(spotifyKeys);
 
   	spotify.search({ type: "track", query: search}, (error, data) => {
   	    if (error) {
