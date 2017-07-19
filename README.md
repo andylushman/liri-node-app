@@ -4,6 +4,6 @@ Project Goals: Connect to three API's via Node, output the data returned to the 
 
 API's used:
 
-Twitter
-Spotify
-OMDB
+Twitter  
+Spotify  
+OMDB  
