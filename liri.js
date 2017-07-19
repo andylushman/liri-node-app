@@ -4,7 +4,7 @@
 //Load Required Node Modules
 const twitter = require('twitter');
 //npm install --save node-spotify-api??
-const Spotify = require('node-spotify-api');
+const spotify = require('node-spotify-api');
 const request = require('request'); //needed for OMBD API
 const fs = require("fs"); //core node package for reading and writing files
 
@@ -57,7 +57,7 @@ function retrieveTweets(){
 							         "User Tweets:\n" +
 							        "===================\n\n";
 
-			for (var i = 0; i < tweets.length; i++) {
+			for (let i = 0; i < tweets.length; i++) {
 				outputStr += "Created on: " + tweets[i].created_at + "\n" +
     							 "Tweet content: " + tweets[i].text + "\n" +
     							 "================================\n";
