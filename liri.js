@@ -2,7 +2,7 @@
 //GLOBAL VARIABLES
 //=======================
 //Load Required Node Modules
-var twitter = require('twitter');
+var Twitter = require('twitter');
 //npm install --save node-spotify-api??
 var spotify = require('node-spotify-api');
 var request = require('request'); //needed for OMBD API
