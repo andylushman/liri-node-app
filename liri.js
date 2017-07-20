@@ -53,7 +53,7 @@ function retrieveTweets(){
 			});
 			return;
 		} else {
-			// Pretty print user tweets
+			//Print user tweets
 			var outputStr = "===================\n" +
 							         "User Tweets:\n" +
 							        "===================\n\n";
