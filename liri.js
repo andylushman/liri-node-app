@@ -94,7 +94,7 @@ function retrieveOBDBInfo(movie){
 	search = search.split(" ").join("+");
 
 	// varruct the query string
-	var queryStr = 'http://www.omdbapi.com/?t=' + search + '&plot=full&tomatoes=true';
+	var queryStr = 'http://www.omdbapi.com/?t=' + search + "&y=&plot=short&apikey=40e9cece";
 
 	// Send the request to OMDB
 	request(queryStr, (error, response, body) => {
