@@ -73,6 +73,7 @@ function retrieveTweets(){
 	});
 } //End retrieveTweets();
 
+
 // retrieveOMDBInfo will retrieve information on a movie from the OMDB database
 function retrieveOBDBInfo(movie){
 
@@ -143,6 +144,7 @@ function retrieveOBDBInfo(movie){
 
 } //End retrieveOBDBInfo();
 
+
 // doWhatItSays will read in a file to determine the desired command and then execute
 function doWhatItSays(){
   // Append the command to the log file
@@ -177,6 +179,7 @@ function doWhatItSays(){
 		}
 	});
 } //End doWhatItSays();
+
 
 // spotifySong will retrieve information on a song from Spotify
 function spotifySong(song){
