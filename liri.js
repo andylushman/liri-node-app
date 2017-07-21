@@ -39,7 +39,7 @@ function retrieveTweets(){
 	var client = new Twitter(twitterKeys);
 
 	// Set the 'screen_name' to my Twitter handle
-	var params = {screen_name: "aldubootcamp", count: 20};
+	var params = {aldubootcamp: "nodejs", count: 20};
 
 	// Retrieve the last 20 tweets
 	client.get("statuses/user_timeline", params, (error, tweets, response) => {
@@ -47,9 +47,9 @@ function retrieveTweets(){
 			var errorStr = "ERROR: Retrieving user tweets -- " + error;
 
 			// Append the error string to the log file
-			fs.appendFile("./log.txt", errorStr, (err) => {
+			fs.appendFile("./log.txt", error, (err) => {
 				if (err) throw err;
-				console.log(errorStr);
+				console.log(error);
 			});
 			return;
 		} else {
